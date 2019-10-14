@@ -13,31 +13,31 @@ executed against an ink flow along with a number of dialogs ~n~ to generate as
 follows:
 
 #+begin_src shell :results output :exports both
-./run.fish ./resources/flow.ink 20 | jq | head -20
+env MONO_PATH=./lib mono InkSimulator.exe ./resources/flow.ink 20 | jq | head -20
 #+end_src
 
 #+RESULTS:
 #+begin_example
 {
-  "637066807663819590": [
+  "637066816526499910": [
     {
-      "tid": "637066807663819590:0",
+      "tid": "637066816526499910:0",
       "type": "M",
       "text": "Hello, I am an automated assistant. How can I help you?"
     },
     {
-      "tid": "637066807663819590:1",
+      "tid": "637066816526499910:1",
       "type": "U",
-      "text": "change"
+      "text": "change object_to_change[:address_kind physical]"
     },
     {
-      "tid": "637066807663819590:2",
-      "type": "U",
-      "text": "object_to_change[:address_kind physical]"
-    },
-    {
-      "tid": "637066807663819590:3",
+      "tid": "637066816526499910:2",
       "type": "M",
+      "text": "Your bank branch can help you with this How can I help you?"
+    },
+    {
+      "tid": "637066816526499910:3",
+      "type": "U",
 #+end_example
 
 Texts for ~U~ (user) turns are supposed to be ~plt~ parseable assertions.
