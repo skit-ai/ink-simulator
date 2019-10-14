@@ -1,3 +1,60 @@
 #+TITLE: Ink Simulator
 
 This is a basic flow simulator for flows written in [[https://github.com/inkle/ink][ink]].
+
+* Building
+We depend on ~dlls~ from [[https://github.com/inkle/ink/tree/bc37c587d5d79e56f18c3ecb08a12a5c80e99789][this version]] of ink repository. The same are bundled here
+in ~./lib~. For building on Linux (only system supported) you will need ~mono~. Once
+you have it, run ~make~.
+
+* Running
+After building, you will get a binary with name ~InkSimulator.exe~ which can be
+executed against an ink flow along with a number of dialogs ~n~ to generate as
+follows:
+
+#+begin_src shell :results output
+./run.fish ./resources/flow.ink 20 | jq | head -20
+#+end_src
+
+#+RESULTS:
+#+begin_example
+{
+  "637066807663819590": [
+    {
+      "tid": "637066807663819590:0",
+      "type": "M",
+      "text": "Hello, I am an automated assistant. How can I help you?"
+    },
+    {
+      "tid": "637066807663819590:1",
+      "type": "U",
+      "text": "change"
+    },
+    {
+      "tid": "637066807663819590:2",
+      "type": "U",
+      "text": "object_to_change[:address_kind physical]"
+    },
+    {
+      "tid": "637066807663819590:3",
+      "type": "M",
+#+end_example
+
+Texts for ~U~ (user) turns are supposed to be ~plt~ parseable assertions.
+
+* Writing flows
+While we rely on ink's runtime engine and so support all the features it has, we
+also have certain conventions so that we end up generating /useful/ data. Here is
+a list:
+
+1. For choices, use plt style assertions specified in ~[]~. First text after the
+   assertion is ignored as we don't care about the templated version of user's
+   text. Note that you might need to escape extra square brackets. See flows in
+   ~./resources~ directory for examples.
+2. If you, as a user, want to say /pass/ to a choice, write ~null~ as its entry
+   (again, see examples in ~./resources~). This is needed when we want to use a
+   cascade of choice to represent multiple inputs from user.
+3. For down weighing probability of certain choice, add a tag like ~p:0.4~ to it.
+   Default assumption is of ~p:1.0~. The mechanism for probability based picking
+   is to first pick a branch and random and then accept the outcome using the
+   tagged probability.

@@ -1,4 +1,4 @@
-BINS = ink-simulator.exe
+BINS = InkSimulator.exe
 
 all: $(BINS)
 
@@ -10,5 +10,5 @@ DLLS = ./lib/ink-engine-runtime.dll ./lib/ink_compiler.dll
 REFS = -reference:./lib/ink-engine-runtime.dll -reference:./lib/ink_compiler.dll
 SRCS = ./src/InkSimulator.cs ./src/InkFlowCompiler.cs
 
-ink-simulator.exe: $(SRCS) $(DLLS)
+InkSimulator.exe: $(SRCS) $(DLLS)
 	csc $(REFS) $(SRCS)
