@@ -79,7 +79,8 @@ class InkSimulator
         var dialogs = new Dictionary<string, List<InkTurn>>();
 
         InkTurn turn;
-        for (int i = 0; i < n; i++)
+        int collectedDialogs = 0;
+        while (collectedDialogs < n)
         {
             var did = GenerateDialogID();
             dialogs.Add(did, new List<InkTurn>());
@@ -111,6 +112,7 @@ class InkSimulator
                 }
             }
             story.ResetState();
+            collectedDialogs++;
         }
 
         var serializer = new JavaScriptSerializer();
