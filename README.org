@@ -56,5 +56,5 @@ a list:
    cascade of choice to represent multiple inputs from user.
 3. For down weighing probability of certain choice, add a tag like ~p:0.4~ to it.
    Default assumption is of ~p:1.0~. The mechanism for probability based picking
-   is to first pick a branch and random and then accept the outcome using the
+   is to first pick a branch at random and then accept the outcome using the
    tagged probability.
