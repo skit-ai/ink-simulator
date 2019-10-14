@@ -28,9 +28,19 @@ class InkSimulator
 
     static double TurnProbability(Story story)
     {
-        var regex = new Regex(@"p:(\d\.?\d+)");
-        // story.currentTags;
-        return 1.0;
+        var prx = new Regex(@"p:(\d\.?\d+)", RegexOptions.IgnoreCase);
+        var allTagStr = String.Join(" ", story.currentTags);
+        var match = prx.Match(allTagStr);
+
+        if (match.Success)
+        {
+            Group g = match.Groups[1];
+            return Double.Parse(g.Value);
+        }
+        else
+        {
+            return 1.0;
+        }
     }
 
     static InkTurn CollectUserTurn(Story story, Random rng)
