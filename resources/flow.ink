@@ -8,19 +8,19 @@ Hello, I am an automated assistant. -> call_root
 
 How can I help you?
 
-+ [change] : I wanted to change # p:0.9
++ [change] I wanted to change # p:0.9
   -> change_flow
-+ [inform] : Inform about a product
++ [inform] Inform about a product
   -> inform_flow
-+ [request_statement] : I wanted statement
++ [request_statement] I wanted statement
   -> request_statement_flow
-+ [request_agent] : Connect me to an agent
++ [request_agent] Connect me to an agent
   -> request_agent_flow
-+ [request_language_change] : Request to change language
++ [request_language_change] Request to change language
     Sorry, we only support one language at the moment. -> call_root
-+ [oos]: OOS
++ [_oos_] OOS
   -> oos_flow
-+ [ood]: OOD
++ [_ood_] OOD
   -> ood_flow
 
 === address_kind_flow
@@ -29,7 +29,7 @@ Which address do you want to change?
 
 === change_flow
 + [object_to_change\[:address_kind physical\]] my home address
-+ [object_to_change\[:address_kind email\]]: my email address
++ [object_to_change\[:address_kind email\]] my email address
 * null
     -> address_kind_flow
 
