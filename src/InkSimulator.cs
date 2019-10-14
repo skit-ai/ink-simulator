@@ -38,12 +38,19 @@ class InkSimulator
         int index = rng.Next(story.currentChoices.Count);
         var choice = story.currentChoices[index];
         story.ChooseChoiceIndex(index);
+        double p = TurnProbability(story);
 
         // TODO: Try if tag can be picked using choiceToChoose.targetPath
-
-        // We skip user selected text for now.
-        story.Continue();
-        return new InkTurn("U", choice.text.Trim());
+        if (rng.NextDouble() <= p)
+        {
+            story.Continue();
+            // We skip user selected text for now.
+            return new InkTurn("U", choice.text.Trim());
+        }
+        else
+        {
+            return null;
+        }
     }
 
     static bool AtMachineTurn(Story story)
@@ -85,6 +92,7 @@ class InkSimulator
             var did = GenerateDialogID();
             dialogs.Add(did, new List<InkTurn>());
             int turnIndex = 0;
+            bool dialogFailed = false;
 
             while (!AtStoryEnd(story))
             {
@@ -100,6 +108,12 @@ class InkSimulator
                     if (AtUserTurn(story))
                     {
                         turn = CollectUserTurn(story, rng);
+                        // The stars didn't align. This mechanism needs to
+                        // improve though.
+                        if (turn == null) {
+                            dialogFailed = true;
+                            break;
+                        }
                         // We skip null turns and consider them as passes by the
                         // user.
                         if (turn.text != "null")
@@ -112,7 +126,14 @@ class InkSimulator
                 }
             }
             story.ResetState();
-            collectedDialogs++;
+            if (dialogFailed)
+            {
+                dialogs.Remove(did);
+            }
+            else
+            {
+                collectedDialogs++;
+            }
         }
 
         var serializer = new JavaScriptSerializer();
