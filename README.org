@@ -12,7 +12,7 @@ After building, you will get a binary with name ~InkSimulator.exe~ which can be
 executed against an ink flow along with a number of dialogs ~n~ to generate as
 follows:
 
-#+begin_src shell :results output
+#+begin_src shell :results output :exports both
 ./run.fish ./resources/flow.ink 20 | jq | head -20
 #+end_src
 
