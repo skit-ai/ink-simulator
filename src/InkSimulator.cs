@@ -43,7 +43,7 @@ class InkSimulator
         }
     }
 
-    static InkTurn CollectUserTurn(Story story, Random rng)
+    static InkTurn CollectUserTurn(Story story, Random rng, string lastUserText = "")
     {
         int index = rng.Next(story.currentChoices.Count);
         var choice = story.currentChoices[index];
@@ -54,8 +54,16 @@ class InkSimulator
         if (rng.NextDouble() <= p)
         {
             story.Continue();
-            // We skip user selected text for now.
-            return new InkTurn("U", choice.text.Trim());
+
+            var currentText = (lastUserText + " " + choice.text).Trim();
+            if (AtUserTurn(story))
+            {
+                return CollectUserTurn(story, rng, currentText);
+            }
+            else
+            {
+                return new InkTurn("U", currentText);
+            }
         }
         else
         {
