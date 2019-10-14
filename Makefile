@@ -6,5 +6,9 @@ all: $(BINS)
 clean:
 	rm $(BINS)
 
-ink-simulator.exe: ./src/InkSimulator.cs ./lib/ink-engine-runtime.dll
-	csc -reference:./lib/ink-engine-runtime.dll ./src/InkSimulator.cs
+DLLS = ./lib/ink-engine-runtime.dll ./lib/ink_compiler.dll
+REFS = -reference:./lib/ink-engine-runtime.dll -reference:./lib/ink_compiler.dll
+SRCS = ./src/InkSimulator.cs ./src/InkFlowCompiler.cs
+
+ink-simulator.exe: $(SRCS) $(DLLS)
+	csc $(REFS) $(SRCS)
