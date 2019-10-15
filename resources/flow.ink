@@ -8,19 +8,19 @@ Hello, I am an automated assistant. -> call_root
 
 How can I help you?
 
-+ [change] I wanted to change # p:0.9
++ [change] I wanted to change
   -> change_flow
-+ [inform] Inform about a product
++ [inform] Inform about a product # p:0.2
   -> inform_flow
-+ [request_statement] I wanted statement
++ [request_statement] I wanted statement # p:0.1
   -> request_statement_flow
-+ [request_agent] Connect me to an agent
++ [request_agent] Connect me to an agent # p:0.3
   -> request_agent_flow
-+ [request_language_change] Request to change language
++ [request_language_change] Request to change language # p:0.04
     Sorry, we only support one language at the moment. -> call_root
-+ [_oos_] OOS
++ [_oos_] OOS # p:0.1
   -> oos_flow
-+ [_ood_] OOD
++ [_ood_] OOD # p:0.2
   -> ood_flow
 
 === address_kind_flow
