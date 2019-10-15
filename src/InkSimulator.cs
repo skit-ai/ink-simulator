@@ -48,16 +48,26 @@ class InkSimulator
         int index = rng.Next(story.currentChoices.Count);
         var choice = story.currentChoices[index];
         story.ChooseChoiceIndex(index);
+        story.Continue();
         double p = TurnProbability(story);
 
         // TODO: Try if tag can be picked using choiceToChoose.targetPath
+        string currentText;
         if (rng.NextDouble() <= p)
         {
-            story.Continue();
-
-            var currentText = (lastUserText + " " + choice.text).Trim();
+            if (choice.text.Trim() == "null")
+            {
+                currentText = lastUserText.Trim();
+            }
+            else
+            {
+                currentText = (lastUserText + " " + choice.text).Trim();
+            }
             if (AtUserTurn(story))
             {
+                if (currentText == "") {
+                    currentText = "null";
+                }
                 return CollectUserTurn(story, rng, currentText);
             }
             else
