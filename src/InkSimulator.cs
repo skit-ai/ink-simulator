@@ -18,6 +18,12 @@ class InkTurn
     }
 }
 
+class InkDialog
+{
+    public string id;
+    public List<InkTurn> turns;
+}
+
 class InkSimulator
 {
     static InkTurn CollectMachineTurn(Story story)
@@ -110,25 +116,26 @@ class InkSimulator
         var story = new Story(text);
         var rng = new Random();
 
-        // Map from dialog id to turns
-        var dialogs = new Dictionary<string, List<InkTurn>>();
+        var dialogs = new List<InkDialog>();
 
-        InkTurn turn;
         int collectedDialogs = 0;
         while (collectedDialogs < n)
         {
-            var did = GenerateDialogID();
-            dialogs.Add(did, new List<InkTurn>());
+            var dialog = new InkDialog();
+            dialog.id = GenerateDialogID();
+            dialog.turns = new List<InkTurn>();
+
             int turnIndex = 0;
             bool dialogFailed = false;
 
             while (!AtStoryEnd(story))
             {
+                InkTurn turn;
                 if (AtMachineTurn(story))
                 {
                     turn = CollectMachineTurn(story);
-                    turn.id = did + ":" + turnIndex;
-                    dialogs[did].Add(turn);
+                    turn.id = dialog.id + ":" + turnIndex;
+                    dialog.turns.Add(turn);
                     turnIndex++;
                 }
                 else
@@ -146,20 +153,17 @@ class InkSimulator
                         // user.
                         if (turn.text != "null")
                         {
-                            turn.id = did + ":" + turnIndex;
-                            dialogs[did].Add(turn);
+                            turn.id = dialog.id + ":" + turnIndex;
+                            dialog.turns.Add(turn);
                             turnIndex++;
                         }
                     }
                 }
             }
             story.ResetState();
-            if (dialogFailed)
+            if (!dialogFailed)
             {
-                dialogs.Remove(did);
-            }
-            else
-            {
+                dialogs.Add(dialog);
                 collectedDialogs++;
             }
         }
