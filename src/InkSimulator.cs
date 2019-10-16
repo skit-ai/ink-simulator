@@ -7,7 +7,7 @@ using System.Web.Script.Serialization;
 
 class InkTurn
 {
-    public string tid;
+    public string id;
     public string type;
     public string text;
 
@@ -127,7 +127,7 @@ class InkSimulator
                 if (AtMachineTurn(story))
                 {
                     turn = CollectMachineTurn(story);
-                    turn.tid = did + ":" + turnIndex;
+                    turn.id = did + ":" + turnIndex;
                     dialogs[did].Add(turn);
                     turnIndex++;
                 }
@@ -146,7 +146,7 @@ class InkSimulator
                         // user.
                         if (turn.text != "null")
                         {
-                            turn.tid = did + ":" + turnIndex;
+                            turn.id = did + ":" + turnIndex;
                             dialogs[did].Add(turn);
                             turnIndex++;
                         }
